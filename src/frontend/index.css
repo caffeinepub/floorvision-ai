@@ -1,0 +1,369 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   FONT FACES — Self-hosted from /assets/fonts/
+   ============================================================ */
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/assets/fonts/CabinetGrotesk-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans-Variable.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================================
+   DESIGN TOKENS — OKLCH (raw L C H values, no oklch() wrapper)
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Radius */
+    --radius: 0.5rem;
+
+    /* === LIGHT THEME PALETTE === */
+    /* Backgrounds */
+    --background: 0.99 0.003 80;         /* near-white warm */
+    --foreground: 0.14 0.01 260;         /* deep charcoal */
+
+    /* Card surfaces */
+    --card: 1 0 0;
+    --card-foreground: 0.14 0.01 260;
+
+    /* Popover */
+    --popover: 1 0 0;
+    --popover-foreground: 0.14 0.01 260;
+
+    /* Primary — deep charcoal (used for default button) */
+    --primary: 0.14 0.01 260;
+    --primary-foreground: 0.99 0.003 80;
+
+    /* Secondary — warm light gray */
+    --secondary: 0.96 0.007 75;
+    --secondary-foreground: 0.14 0.01 260;
+
+    /* Muted — light warm gray */
+    --muted: 0.95 0.007 75;
+    --muted-foreground: 0.52 0.015 75;
+
+    /* Accent — warm amber highlight */
+    --accent: 0.96 0.02 80;
+    --accent-foreground: 0.14 0.01 260;
+
+    /* Amber — our signature CTA color */
+    --amber: 0.70 0.175 55;              /* warm amber ~#D97706 */
+    --amber-light: 0.95 0.04 80;
+    --amber-foreground: 0.99 0.003 80;
+
+    /* Destructive */
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    /* Borders and rings */
+    --border: 0.90 0.008 75;
+    --input: 0.90 0.008 75;
+    --ring: 0.70 0.175 55;
+
+    /* Charts */
+    --chart-1: 0.70 0.175 55;
+    --chart-2: 0.62 0.14 250;
+    --chart-3: 0.55 0.12 150;
+    --chart-4: 0.75 0.16 80;
+    --chart-5: 0.60 0.18 30;
+
+    /* Sidebar */
+    --sidebar: 0.985 0 0;
+    --sidebar-foreground: 0.145 0 0;
+    --sidebar-primary: 0.14 0.01 260;
+    --sidebar-primary-foreground: 0.985 0 0;
+    --sidebar-accent: 0.97 0 0;
+    --sidebar-accent-foreground: 0.205 0 0;
+    --sidebar-border: 0.922 0 0;
+    --sidebar-ring: 0.708 0 0;
+
+    /* Section background alternates */
+    --section-alt: 0.975 0.006 78;      /* very light warm cream */
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Plus Jakarta Sans", "Cabinet Grotesk", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Cabinet Grotesk", "Plus Jakarta Sans", sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* ============================================================
+   CUSTOM UTILITIES
+   ============================================================ */
+
+@layer utilities {
+  /* Amber accent classes */
+  .bg-amber-brand {
+    background-color: oklch(var(--amber));
+  }
+  .text-amber-brand {
+    color: oklch(var(--amber));
+  }
+  .border-amber-brand {
+    border-color: oklch(var(--amber));
+  }
+  .bg-amber-light {
+    background-color: oklch(var(--amber-light));
+  }
+  .ring-amber-brand {
+    --tw-ring-color: oklch(var(--amber));
+  }
+
+  /* Section alt background */
+  .bg-section-alt {
+    background-color: oklch(var(--section-alt));
+  }
+
+  /* Frosted glass */
+  .glass-nav {
+    background-color: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(200, 190, 180, 0.25);
+  }
+
+  /* Warm image shadow */
+  .shadow-warm {
+    box-shadow: 
+      0 4px 16px rgba(180, 120, 40, 0.10),
+      0 1px 4px rgba(180, 120, 40, 0.06);
+  }
+  .shadow-warm-lg {
+    box-shadow: 
+      0 8px 40px rgba(180, 120, 40, 0.13),
+      0 2px 8px rgba(180, 120, 40, 0.08);
+  }
+  .shadow-warm-xl {
+    box-shadow: 
+      0 16px 64px rgba(180, 120, 40, 0.15),
+      0 4px 16px rgba(180, 120, 40, 0.08);
+  }
+
+  /* Section number ghost text */
+  .section-ghost-num {
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-size: clamp(6rem, 16vw, 12rem);
+    font-weight: 900;
+    line-height: 1;
+    color: oklch(0.90 0.012 75);
+    letter-spacing: -0.04em;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Divider with diamond */
+  .divider-diamond {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .divider-diamond::before,
+  .divider-diamond::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: oklch(var(--border));
+  }
+
+  /* Pill badge */
+  .pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Comparison slider */
+  .comparison-slider {
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+  }
+  .comparison-slider-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: white;
+    cursor: ew-resize;
+    z-index: 10;
+  }
+  .comparison-slider-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  /* Hover lift */
+  .hover-lift {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-3px);
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Nav link with amber slide-in underline */
+  .nav-link-hover {
+    position: relative;
+  }
+  .nav-link-hover::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    height: 1.5px;
+    background: oklch(0.70 0.175 55);
+    border-radius: 1px;
+    transition: left 0.22s cubic-bezier(0.4, 0, 0.2, 1), right 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease;
+    opacity: 0;
+  }
+  .nav-link-hover:hover::after {
+    left: 8px;
+    right: 8px;
+    opacity: 1;
+  }
+
+  /* Feature card with amber top-border on hover */
+  .feature-card {
+    border-top: 2px solid transparent;
+    transition: border-color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  }
+  .feature-card:hover {
+    border-top-color: oklch(0.70 0.175 55);
+    transform: translateY(-3px);
+  }
+
+  /* Suggestion chip hover */
+  .suggestion-chip {
+    transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease;
+  }
+  .suggestion-chip:hover {
+    background-color: oklch(0.95 0.035 75) !important;
+    border-color: oklch(0.70 0.175 55) !important;
+    color: oklch(0.50 0.13 55) !important;
+    transform: translateY(-1px);
+  }
+
+  /* Step editorial number */
+  .step-num {
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: oklch(0.88 0.05 60);
+    user-select: none;
+  }
+
+  /* Hero decorative rule */
+  .hero-rule {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .hero-rule::before,
+  .hero-rule::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, oklch(0.80 0.04 70), transparent);
+  }
+
+  /* Amber CTA button — theatrical hover */
+  .btn-amber {
+    background-color: oklch(0.70 0.175 55);
+    color: white;
+    transition: filter 0.18s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+  }
+  .btn-amber:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 32px oklch(0.70 0.175 55 / 0.35);
+  }
+  .btn-amber:active {
+    filter: brightness(0.97);
+    transform: translateY(0) scale(0.99);
+  }
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.82 0.015 75);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.70 0.175 55);
+}
+
+/* ============================================================
+   FOCUS VISIBLE
+   ============================================================ */
+
+:focus-visible {
+  outline: 2px solid oklch(var(--amber));
+  outline-offset: 2px;
+}
