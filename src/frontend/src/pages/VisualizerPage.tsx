@@ -1,51 +1,45 @@
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Link } from "@tanstack/react-router";
 import {
-  CheckCircle2,
-  ChevronRight,
-  Download,
+  ArrowLeft,
   FileImage,
   FileText,
   Info,
   Play,
   RotateCcw,
   Share2,
-  Sparkles,
   Video,
   Wand2,
 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 
-/* ── Section divider with diamond ─────────────────────────── */
-function SectionDivider() {
+/* ── Section header ────────────────────────────────────────── */
+function SectionHeader({
+  label,
+  title,
+}: {
+  label: string;
+  title: React.ReactNode;
+}) {
   return (
-    <div className="flex items-center gap-4 py-2 container max-w-7xl mx-auto px-6">
-      <div className="flex-1 h-px bg-border/50" />
-      <div
-        className="w-2 h-2 rotate-45 border"
-        style={{ borderColor: "oklch(0.88 0.02 75)" }}
-      />
-      <div className="flex-1 h-px bg-border/50" />
+    <div className="mb-8">
+      <p className="text-[10px] text-muted-foreground/40 tracking-[0.18em] uppercase mb-3 font-medium">
+        {label}
+      </p>
+      <h2
+        className="font-display font-black text-foreground"
+        style={{
+          fontSize: "clamp(1.4rem, 2.5vw, 1.9rem)",
+          letterSpacing: "-0.03em",
+          lineHeight: "1.1",
+        }}
+      >
+        {title}
+      </h2>
     </div>
-  );
-}
-
-/* ── Section label ─────────────────────────────────────────── */
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span
-      className="pill-badge mb-5 inline-flex"
-      style={{
-        backgroundColor: "oklch(0.95 0.025 78)",
-        color: "oklch(0.50 0.12 55)",
-      }}
-    >
-      {children}
-    </span>
   );
 }
 
@@ -88,13 +82,13 @@ function ComparisonSlider() {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden rounded-2xl select-none cursor-ew-resize shadow-warm"
-      style={{ aspectRatio: "4/3" }}
+      className="relative overflow-hidden select-none cursor-ew-resize"
+      style={{ aspectRatio: "16/9" }}
       onMouseDown={handleMouseDown}
       onTouchMove={handleTouchMove}
       onTouchStart={(e) => updatePosition(e.touches[0].clientX)}
     >
-      {/* Right image (AI render) — full width background */}
+      {/* Right image */}
       <div className="absolute inset-0">
         <img
           src="/assets/generated/floorplan-3d-render.dim_800x600.jpg"
@@ -104,7 +98,7 @@ function ComparisonSlider() {
         />
       </div>
 
-      {/* Left image (original) — clipped by slider position */}
+      {/* Left image — clipped */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ width: `${sliderPos}%` }}
@@ -121,28 +115,19 @@ function ComparisonSlider() {
         />
       </div>
 
-      {/* Labels */}
+      {/* Absolute overlay labels */}
       <div className="absolute top-3 left-3 z-10 pointer-events-none">
-        <span
-          className="text-xs font-semibold px-3 py-1.5 rounded-full shadow"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.92)",
-            color: "oklch(0.30 0.01 260)",
-          }}
-        >
+        <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-1 bg-white/80 text-foreground/70">
           Original 2D
         </span>
       </div>
       <div className="absolute top-3 right-3 z-10 pointer-events-none">
-        <span
-          className="text-xs font-semibold px-3 py-1.5 rounded-full shadow text-white"
-          style={{ backgroundColor: "oklch(0.70 0.175 55)" }}
-        >
-          ✦ AI Generated
+        <span className="text-[10px] uppercase tracking-widest font-medium px-2 py-1 bg-foreground/80 text-white">
+          AI Generated
         </span>
       </div>
 
-      {/* Slider handle line */}
+      {/* Slider line */}
       <div
         className="absolute top-0 bottom-0 z-10 pointer-events-none"
         style={{
@@ -151,33 +136,30 @@ function ComparisonSlider() {
           backgroundColor: "white",
         }}
       >
-        {/* Drag handle circle */}
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white flex items-center justify-center pointer-events-none"
-          style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.18)" }}
-        >
+        {/* Drag handle — flat square */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7 bg-white flex items-center justify-center pointer-events-none shadow-card">
           <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
+            width="12"
+            height="12"
+            viewBox="0 0 14 14"
             fill="none"
             aria-hidden="true"
           >
             <path
-              d="M6 9L3 6L6 3"
+              d="M4.5 7L2 4.5L4.5 2"
               stroke="#333"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
             <path
-              d="M3 6H15"
+              d="M2 4.5H12"
               stroke="#333"
               strokeWidth="1.5"
               strokeLinecap="round"
             />
             <path
-              d="M12 3L15 6L12 9"
+              d="M9.5 2L12 4.5L9.5 7"
               stroke="#333"
               strokeWidth="1.5"
               strokeLinecap="round"
@@ -208,16 +190,11 @@ function AngleCard({
     <button
       type="button"
       data-ocid={`angles.item.${index}`}
-      className={`group rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 text-left w-full ${
+      className={`group overflow-hidden cursor-pointer transition-all duration-200 text-left w-full relative ${
         isActive
-          ? "shadow-warm-lg scale-[1.01]"
-          : "shadow-warm hover:shadow-warm-lg hover:scale-[1.01]"
+          ? "border-2 border-foreground"
+          : "border border-border/50 hover:border-border"
       }`}
-      style={
-        isActive
-          ? { outline: "2px solid oklch(0.70 0.175 55)", outlineOffset: "1px" }
-          : {}
-      }
       onClick={onSelect}
       aria-pressed={isActive}
     >
@@ -225,82 +202,26 @@ function AngleCard({
         <img
           src={src}
           alt={label}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
           loading="lazy"
         />
-        {isActive && (
-          <div
-            className="absolute inset-0 flex items-end p-3"
-            style={{
-              background:
-                "linear-gradient(to top, oklch(0.70 0.175 55 / 0.65) 0%, transparent 60%)",
-            }}
-          >
-            <CheckCircle2 size={18} className="text-white ml-auto" />
-          </div>
-        )}
-      </div>
-      <div
-        className="px-4 py-3 transition-colors duration-200"
-        style={
-          isActive
-            ? { backgroundColor: "oklch(0.95 0.04 78)" }
-            : { backgroundColor: "oklch(1 0 0)" }
-        }
-      >
-        <p
-          className="text-sm font-semibold font-display"
-          style={
-            isActive
-              ? { color: "oklch(0.55 0.14 55)" }
-              : { color: "oklch(0.14 0.01 260)" }
-          }
+        {/* Label overlay at bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 px-2.5 py-2"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)",
+          }}
         >
-          {label}
-        </p>
-        {isActive && (
           <p
-            className="text-xs mt-0.5"
-            style={{ color: "oklch(0.52 0.015 75)" }}
+            className={`text-[10px] font-semibold uppercase tracking-wide ${
+              isActive ? "text-white" : "text-white/80"
+            }`}
           >
-            Currently viewing
+            {label}
           </p>
-        )}
+        </div>
       </div>
-    </button>
-  );
-}
-
-/* ── Video style pill ───────────────────────────────────────── */
-function StylePill({
-  label,
-  isActive,
-  onClick,
-}: {
-  label: string;
-  isActive: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
-      style={
-        isActive
-          ? {
-              backgroundColor: "oklch(0.70 0.175 55)",
-              color: "white",
-              boxShadow: "0 4px 12px rgba(180,120,40,0.20)",
-            }
-          : {
-              backgroundColor: "oklch(1 0 0)",
-              border: "1px solid oklch(0.88 0.012 75)",
-              color: "oklch(0.40 0.01 260)",
-            }
-      }
-    >
-      {label}
     </button>
   );
 }
@@ -338,128 +259,83 @@ export default function VisualizerPage() {
       {/* ── PAGE HEADER ─────────────────────────────────────────── */}
       <section
         data-ocid="visualizer.section"
-        className="pt-28 pb-10 border-b border-border/40"
-        style={{ backgroundColor: "oklch(0.975 0.006 78)" }}
+        className="pt-24 pb-5 border-b border-border/30"
       >
         <div className="container max-w-7xl mx-auto px-6">
-          {/* Breadcrumb */}
-          <nav
-            className="flex items-center gap-2 text-sm mb-6"
-            style={{ color: "oklch(0.52 0.015 75)" }}
-          >
-            <Link
-              to="/"
-              data-ocid="visualizer.link"
-              className="hover:text-foreground transition-smooth"
-            >
-              Home
-            </Link>
-            <ChevronRight size={14} />
-            <span className="text-foreground font-medium">Visualizer</span>
-          </nav>
-
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-3 mb-3">
-                <h1
-                  className="font-display font-black text-foreground"
-                  style={{
-                    fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-                    letterSpacing: "-0.03em",
-                  }}
-                >
-                  Your Visualization Results
-                </h1>
-                <Badge
-                  className="rounded-full text-xs font-semibold px-3 py-1 text-white flex-shrink-0"
-                  style={{ backgroundColor: "oklch(0.70 0.175 55)" }}
-                >
-                  <Sparkles size={10} className="mr-1" />
-                  Ready
-                </Badge>
+          <div className="flex items-center justify-between py-0">
+            {/* Left: back + status */}
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <Link
+                to="/"
+                data-ocid="visualizer.link"
+                className="flex items-center gap-1.5 hover:text-foreground transition-smooth"
+              >
+                <ArrowLeft size={12} />
+                Back
+              </Link>
+              <span className="text-muted-foreground/30">·</span>
+              <div className="flex items-center gap-1.5">
+                <div
+                  className="w-1.5 h-1.5 rounded-full"
+                  style={{ backgroundColor: "oklch(0.55 0.16 150)" }}
+                />
+                <span className="text-muted-foreground/70">
+                  Visualization Ready
+                </span>
               </div>
-              <p className="text-muted-foreground text-base leading-relaxed max-w-xl">
-                AI has transformed your floor plan. Explore, refine, and export
-                below.
-              </p>
             </div>
 
-            {/* Export bar */}
+            {/* Right: export text links */}
             <div
               data-ocid="export.section"
-              className="flex flex-wrap items-center gap-2"
+              className="hidden sm:flex items-center gap-4"
             >
-              <span
-                className="text-sm font-medium hidden sm:block"
-                style={{ color: "oklch(0.52 0.015 75)" }}
-              >
-                Export:
-              </span>
-              <Button
+              <button
+                type="button"
                 data-ocid="export.primary_button"
-                variant="outline"
-                size="sm"
-                className="rounded-full h-8 px-4 text-xs font-semibold hover:bg-section-alt border-border/60"
+                className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-smooth"
               >
-                <FileImage size={13} className="mr-1.5" />
-                Download PNG
-              </Button>
-              <Button
+                <FileImage size={11} />
+                PNG
+              </button>
+              <span className="text-muted-foreground/30">·</span>
+              <button
+                type="button"
                 data-ocid="export.secondary_button"
-                variant="outline"
-                size="sm"
-                className="rounded-full h-8 px-4 text-xs font-semibold hover:bg-section-alt border-border/60"
+                className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-smooth"
               >
-                <FileText size={13} className="mr-1.5" />
-                Download PDF
-              </Button>
-              <Button
+                <FileText size={11} />
+                PDF
+              </button>
+              <span className="text-muted-foreground/30">·</span>
+              <button
+                type="button"
                 data-ocid="export.button"
-                variant="outline"
-                size="sm"
-                className="rounded-full h-8 px-4 text-xs font-semibold hover:bg-section-alt border-border/60"
+                className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-smooth"
               >
-                <Share2 size={13} className="mr-1.5" />
-                Share Link
-              </Button>
+                <Share2 size={11} />
+                Share
+              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── SECTION 1: SIDE-BY-SIDE + SLIDER ───────────────────── */}
-      <section data-ocid="comparison.section" className="py-20 bg-background">
+      <section data-ocid="comparison.section" className="py-16 bg-background">
         <div className="container max-w-7xl mx-auto px-6">
-          <div className="flex flex-col items-start mb-10">
-            <SectionLabel>01 — ORIGINAL vs. GENERATED</SectionLabel>
-            <h2
-              className="font-display font-black text-foreground mb-3"
-              style={{
-                fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              Side by side comparison
-            </h2>
-            <p className="text-muted-foreground text-base max-w-lg">
-              Drag the slider below to reveal and compare the original 2D plan
-              with the AI-generated 3D render.
-            </p>
-          </div>
+          <SectionHeader
+            label="01 — Comparison"
+            title="Original vs. AI render"
+          />
 
-          {/* Side-by-side cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
-            {/* Original */}
-            <div className="rounded-2xl overflow-hidden shadow-warm border border-border/50">
-              <div
-                className="px-5 py-3 border-b border-border/40 flex items-center justify-between"
-                style={{ backgroundColor: "oklch(1 0 0)" }}
-              >
-                <span className="text-sm font-semibold font-display text-foreground">
+          {/* Side-by-side — no card wrappers */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+            <div className="overflow-hidden border border-border/50 relative">
+              {/* Absolute label */}
+              <div className="absolute top-0 left-0 z-10 px-2.5 py-1.5 bg-white/90 pointer-events-none">
+                <span className="text-[10px] uppercase tracking-widest font-medium text-foreground/70">
                   Original 2D Plan
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  Uploaded · 2.3 MB
                 </span>
               </div>
               <div className="overflow-hidden" style={{ aspectRatio: "4/3" }}>
@@ -472,23 +348,11 @@ export default function VisualizerPage() {
               </div>
             </div>
 
-            {/* AI Render */}
-            <div className="rounded-2xl overflow-hidden shadow-warm-lg border border-border/50 relative">
-              <div
-                className="px-5 py-3 border-b border-border/40 flex items-center justify-between"
-                style={{ backgroundColor: "oklch(1 0 0)" }}
-              >
-                <span className="text-sm font-semibold font-display text-foreground">
+            <div className="overflow-hidden border border-border/50 relative">
+              {/* Absolute label */}
+              <div className="absolute top-0 left-0 z-10 px-2.5 py-1.5 bg-foreground/80 pointer-events-none">
+                <span className="text-[10px] uppercase tracking-widest font-medium text-white">
                   AI 3D Render
-                </span>
-                <span
-                  className="pill-badge text-white"
-                  style={{
-                    backgroundColor: "oklch(0.70 0.175 55)",
-                    fontSize: "0.625rem",
-                  }}
-                >
-                  ✦ AI Generated
                 </span>
               </div>
               <div className="overflow-hidden" style={{ aspectRatio: "4/3" }}>
@@ -502,18 +366,15 @@ export default function VisualizerPage() {
             </div>
           </div>
 
-          {/* Comparison slider card */}
-          <div
-            className="rounded-3xl overflow-hidden border border-border/50 shadow-warm p-4 sm:p-6"
-            style={{ backgroundColor: "oklch(1 0 0)" }}
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <RotateCcw size={15} style={{ color: "oklch(0.70 0.175 55)" }} />
-              <p className="text-sm font-semibold text-foreground font-display">
-                Interactive Comparison Slider
+          {/* Comparison slider — no card wrapper */}
+          <div className="border border-border/50">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30">
+              <RotateCcw size={11} className="text-muted-foreground/40" />
+              <p className="text-[10px] uppercase tracking-widest font-medium text-muted-foreground/60">
+                Interactive Comparison
               </p>
-              <span className="text-xs text-muted-foreground ml-auto hidden sm:block">
-                Drag left / right to compare
+              <span className="text-[10px] text-muted-foreground/40 ml-auto hidden sm:block">
+                Drag to compare
               </span>
             </div>
             <ComparisonSlider />
@@ -521,66 +382,30 @@ export default function VisualizerPage() {
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* ── SECTION 2: EDIT WITH AI ─────────────────────────────── */}
       <section
         data-ocid="edit.section"
-        className="py-20"
-        style={{ backgroundColor: "oklch(0.975 0.006 78)" }}
+        className="py-16 border-t border-border/40 bg-section-alt"
       >
-        <div className="container max-w-4xl mx-auto px-6">
-          <div className="flex flex-col items-start mb-8">
-            <SectionLabel>02 — REFINE YOUR RENDER</SectionLabel>
-            <div className="relative pb-2">
-              <span
-                className="section-ghost-num absolute -top-4 -left-4 pointer-events-none"
-                aria-hidden="true"
-              >
-                02
-              </span>
-              <h2
-                className="relative font-display font-black text-foreground mb-3"
-                style={{
-                  fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                Describe the changes you want
-              </h2>
-            </div>
-            <p className="text-muted-foreground text-base max-w-lg">
-              Tell the AI what to adjust — in plain English. It understands
-              colours, materials, furniture, lighting, and more.
-            </p>
-          </div>
+        <div className="container max-w-3xl mx-auto px-6">
+          <SectionHeader
+            label="02 — Refine"
+            title="Describe the changes you want"
+          />
 
-          <div
-            className="rounded-3xl border border-border/50 shadow-warm p-6 sm:p-8"
-            style={{ backgroundColor: "oklch(1 0 0)" }}
-          >
-            {/* Textarea */}
+          {/* No card wrapper — flat on page */}
+          <div>
             <Textarea
               data-ocid="edit.textarea"
               placeholder="e.g. Make the living room walls warm terracotta, add a skylight in the kitchen, replace carpet with oak hardwood floors..."
               rows={4}
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
-              className="w-full resize-none rounded-2xl text-sm leading-relaxed placeholder:text-muted-foreground/60"
-              style={{
-                fontSize: "0.9375rem",
-                borderColor: "oklch(0.88 0.012 75)",
-              }}
+              className="w-full resize-none text-sm leading-relaxed placeholder:text-muted-foreground/35 bg-transparent border-0 border-b border-border focus:border-foreground/40 focus:ring-0 px-0 py-3"
             />
 
-            {/* Suggestion chips */}
-            <div className="flex flex-wrap gap-2 mt-4">
-              <span
-                className="text-xs font-medium self-center mr-1"
-                style={{ color: "oklch(0.52 0.015 75)" }}
-              >
-                Suggestions:
-              </span>
+            {/* Suggestion chips — text links with hover underline */}
+            <div className="flex flex-wrap gap-4 mt-4">
               {[
                 "Add more natural light",
                 "Modern furniture style",
@@ -590,13 +415,7 @@ export default function VisualizerPage() {
                 <button
                   type="button"
                   key={chip}
-                  className="suggestion-chip text-xs px-3.5 py-1.5 rounded-full font-medium"
-                  style={{
-                    border: "1px solid oklch(0.88 0.012 75)",
-                    color: "oklch(0.40 0.01 260)",
-                    backgroundColor: "transparent",
-                    fontSize: "0.75rem",
-                  }}
+                  className="suggestion-chip text-xs px-0 py-0.5 text-muted-foreground font-medium bg-transparent border-0"
                   onClick={() =>
                     setEditText((prev) =>
                       prev ? `${prev}, ${chip.toLowerCase()}` : chip,
@@ -608,68 +427,37 @@ export default function VisualizerPage() {
               ))}
             </div>
 
-            {/* Submit */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-6">
               <Button
                 data-ocid="edit.submit_button"
                 type="button"
-                className="btn-amber w-full sm:w-auto h-11 px-8 rounded-full font-bold shadow-warm"
+                className="btn-primary w-full sm:w-auto h-10 px-7 font-semibold text-sm"
+                style={{ borderRadius: 0 }}
               >
-                <Wand2 size={16} className="mr-2" />
+                <Wand2 size={13} className="mr-2" />
                 Apply Changes
               </Button>
-              <div
-                className="flex items-start gap-2 text-xs max-w-xs"
-                style={{ color: "oklch(0.52 0.015 75)" }}
-              >
-                <Info
-                  size={13}
-                  className="flex-shrink-0 mt-0.5"
-                  style={{ color: "oklch(0.65 0.10 55)" }}
-                />
-                Changes are applied using AI — results may vary based on
-                complexity.
-              </div>
+              <p className="flex items-start gap-1.5 text-xs text-muted-foreground/50 max-w-xs">
+                <Info size={11} className="flex-shrink-0 mt-0.5" />
+                Results may vary based on complexity.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* ── SECTION 3: MULTI-ANGLE VIEWS ───────────────────────── */}
-      <section data-ocid="angles.section" className="py-20 bg-background">
+      <section
+        data-ocid="angles.section"
+        className="py-16 border-t border-border/40 bg-background"
+      >
         <div className="container max-w-7xl mx-auto px-6">
-          <div className="flex flex-col items-start mb-10">
-            <SectionLabel>03 — EXPLORE IN 3D</SectionLabel>
-            <div className="relative pb-2">
-              <span
-                className="section-ghost-num absolute -top-4 -left-4 pointer-events-none"
-                aria-hidden="true"
-              >
-                03
-              </span>
-              <h2
-                className="relative font-display font-black text-foreground mb-3"
-                style={{
-                  fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                Every angle.{" "}
-                <span style={{ color: "oklch(0.70 0.175 55)" }}>
-                  Every room.
-                </span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground text-base max-w-lg">
-              Select a view to explore your floor plan from four distinct
-              perspectives. Click any view to set it as active.
-            </p>
-          </div>
+          <SectionHeader
+            label="03 — Explore"
+            title={<>Every angle. Every room.</>}
+          />
 
-          {/* 2x2 grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {ANGLE_VIEWS.map((view, i) => (
               <AngleCard
                 key={view.label}
@@ -682,71 +470,33 @@ export default function VisualizerPage() {
             ))}
           </div>
 
-          {/* Active view indicator */}
-          <div
-            className="mt-6 p-4 sm:p-6 rounded-3xl border border-border/50 shadow-warm"
-            style={{ backgroundColor: "oklch(1 0 0)" }}
-          >
-            <div className="flex items-center gap-3 mb-1">
-              <CheckCircle2
-                size={16}
-                style={{ color: "oklch(0.70 0.175 55)" }}
-              />
-              <p className="text-sm font-semibold text-foreground font-display">
-                Active view: {ANGLE_VIEWS[activeAngle].label}
-              </p>
-            </div>
-            <p
-              className="text-xs pl-7"
-              style={{ color: "oklch(0.52 0.015 75)" }}
-            >
-              Click any view card above to switch perspectives.
+          {/* Active view indicator — flat, no card */}
+          <div className="mt-5 flex items-center gap-2.5 border-t border-border/30 pt-4">
+            <p className="text-xs text-muted-foreground">
+              Active view:{" "}
+              <span className="font-semibold text-foreground">
+                {ANGLE_VIEWS[activeAngle].label}
+              </span>
             </p>
           </div>
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* ── SECTION 4: AI VIDEO ─────────────────────────────────── */}
       <section
         data-ocid="video.section"
-        className="py-20"
-        style={{ backgroundColor: "oklch(0.975 0.006 78)" }}
+        className="py-16 border-t border-border/40 bg-section-alt"
       >
-        <div className="container max-w-4xl mx-auto px-6">
-          <div className="flex flex-col items-start mb-10">
-            <SectionLabel>04 — INTERIOR WALKTHROUGH</SectionLabel>
-            <div className="relative pb-2">
-              <span
-                className="section-ghost-num absolute -top-4 -left-4 pointer-events-none"
-                aria-hidden="true"
-              >
-                04
-              </span>
-              <h2
-                className="relative font-display font-black text-foreground mb-3"
-                style={{
-                  fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                Generate a cinematic{" "}
-                <span style={{ color: "oklch(0.70 0.175 55)" }}>
-                  walkthrough
-                </span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground text-base max-w-lg">
-              AI video generation creates a realistic fly-through based on your
-              floor plan — complete with lighting and atmosphere.
-            </p>
-          </div>
+        <div className="container max-w-3xl mx-auto px-6">
+          <SectionHeader
+            label="04 — Walkthrough"
+            title="Generate a cinematic walkthrough"
+          />
 
           {/* Video preview */}
           <div
             data-ocid="video.canvas_target"
-            className="relative rounded-3xl overflow-hidden shadow-warm-xl mb-8 cursor-pointer group"
+            className="relative overflow-hidden mb-6 cursor-pointer group border border-border/50"
             style={{ aspectRatio: "16/9" }}
           >
             <img
@@ -755,100 +505,79 @@ export default function VisualizerPage() {
               className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700"
               loading="lazy"
             />
-            {/* Gradient overlay */}
             <div
-              className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-70"
+              className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-80"
               style={{
                 background:
-                  "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.32) 100%)",
+                  "linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.28) 100%)",
               }}
             />
-            {/* Play button */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div
-                className="rounded-full bg-white/90 flex items-center justify-center shadow-warm-xl group-hover:scale-110 transition-transform duration-300"
-                style={{ width: "4.5rem", height: "4.5rem" }}
-              >
+              <div className="w-10 h-10 bg-white/90 flex items-center justify-center group-hover:bg-white transition-colors duration-200">
                 <Play
-                  size={22}
-                  className="ml-1"
-                  fill="oklch(0.70 0.175 55)"
-                  style={{ color: "oklch(0.70 0.175 55)" }}
+                  size={15}
+                  className="ml-0.5"
+                  fill="oklch(0.12 0.008 260)"
+                  style={{ color: "oklch(0.12 0.008 260)" }}
                 />
               </div>
             </div>
-            {/* Duration badge */}
-            <div className="absolute bottom-4 right-4">
-              <span className="text-xs text-white font-semibold px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-sm">
+            <div className="absolute bottom-3 right-3">
+              <span className="text-[10px] text-white/80 font-medium px-2 py-1 bg-black/30 backdrop-blur-sm uppercase tracking-wide">
                 Preview · 0:08
               </span>
             </div>
           </div>
 
-          {/* Controls */}
-          <div
-            className="rounded-3xl border border-border/50 shadow-warm p-6 sm:p-8"
-            style={{ backgroundColor: "oklch(1 0 0)" }}
-          >
-            {/* Style selector */}
-            <div className="mb-6">
-              <p className="text-sm font-semibold text-foreground font-display mb-3">
-                Style
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {VIDEO_STYLES.map((style) => (
-                  <StylePill
-                    key={style}
-                    label={style}
-                    isActive={activeStyle === style}
-                    onClick={() => setActiveStyle(style)}
-                  />
-                ))}
-              </div>
+          {/* Controls — flat on page background */}
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/40 font-medium mb-3">
+              Style
+            </p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {VIDEO_STYLES.map((style) => (
+                <button
+                  key={style}
+                  type="button"
+                  onClick={() => setActiveStyle(style)}
+                  className={`px-4 py-1.5 text-xs font-semibold transition-all duration-150 ${
+                    activeStyle === style
+                      ? "bg-foreground text-white"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  style={{ borderRadius: 0 }}
+                >
+                  {style}
+                </button>
+              ))}
             </div>
 
-            {/* Generate button */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <Button
                 data-ocid="video.submit_button"
                 type="button"
-                size="lg"
-                className="btn-amber w-full sm:w-auto h-12 px-8 rounded-full font-bold shadow-warm-lg"
+                className="btn-primary w-full sm:w-auto h-10 px-7 font-semibold text-sm"
+                style={{ borderRadius: 0 }}
               >
-                <Video size={17} className="mr-2" />
+                <Video size={13} className="mr-2" />
                 Generate Video
               </Button>
-              <div
-                className="flex items-center gap-2 text-xs"
-                style={{ color: "oklch(0.52 0.015 75)" }}
-              >
+              <div className="flex items-center gap-2 text-xs text-muted-foreground/50">
                 <div
                   className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: "oklch(0.65 0.14 150)" }}
+                  style={{ backgroundColor: "oklch(0.62 0.14 150)" }}
                 />
                 ~2 min generation time
               </div>
             </div>
 
-            {/* Disclaimer */}
-            <p
-              className="text-xs mt-4 flex items-start gap-2 leading-relaxed"
-              style={{ color: "oklch(0.52 0.015 75)" }}
-            >
-              <Info
-                size={12}
-                className="flex-shrink-0 mt-0.5"
-                style={{ color: "oklch(0.65 0.10 55)" }}
-              />
-              AI video generation creates a realistic fly-through based on your
-              floor plan. Results may vary. Generated in{" "}
-              <strong
-                className="font-semibold"
-                style={{ color: "oklch(0.40 0.01 260)" }}
-              >
+            <p className="text-xs mt-5 flex items-start gap-1.5 text-muted-foreground/40 leading-relaxed">
+              <Info size={11} className="flex-shrink-0 mt-0.5" />
+              AI video generation creates a realistic fly-through in{" "}
+              <strong className="font-semibold text-muted-foreground/60">
                 {activeStyle}
               </strong>{" "}
-              style.
+              style. Results may vary.
             </p>
           </div>
         </div>

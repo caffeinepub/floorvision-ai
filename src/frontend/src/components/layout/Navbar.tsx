@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
-  { label: "How it Works", href: "#howitworks" },
+  { label: "How it works", href: "#howitworks" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Blog", href: "#blog" },
 ];
 
 export default function Navbar() {
@@ -22,36 +21,44 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isTransparent = isHome && !scrolled && !isMenuOpen;
+
   return (
     <header
       data-ocid="nav.section"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || !isHome ? "glass-nav shadow-xs" : "bg-transparent"
+        isTransparent ? "bg-transparent" : "glass-nav"
       }`}
     >
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link
-            to="/"
-            data-ocid="nav.link"
-            className="flex items-center gap-2 group"
-          >
-            <img
-              src="/assets/generated/logo-transparent.dim_200x60.png"
-              alt="FloorVision AI"
-              className="h-8 w-auto object-contain"
-            />
+        <div className="flex items-center justify-between h-14">
+          {/* Text wordmark — no image */}
+          <Link to="/" data-ocid="nav.link" className="flex items-center group">
+            <span
+              className={`font-display font-black text-sm tracking-tight transition-all duration-300 ${
+                isTransparent ? "text-white" : "text-foreground"
+              }`}
+              style={{
+                fontFamily: '"Cabinet Grotesk", sans-serif',
+                fontWeight: 800,
+              }}
+            >
+              FloorVision AI
+            </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-7">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 data-ocid="nav.link"
-                className="nav-link-hover relative px-4 py-2 text-sm font-medium text-foreground/65 hover:text-foreground rounded-md transition-colors duration-200"
+                className={`text-[11px] uppercase tracking-wide font-medium transition-smooth nav-link-hover ${
+                  isTransparent
+                    ? "text-white/70 hover:text-white"
+                    : "text-foreground/55 hover:text-foreground"
+                }`}
               >
                 {link.label}
               </a>
@@ -59,20 +66,30 @@ export default function Navbar() {
           </nav>
 
           {/* CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-5">
             <Link
               to="/visualizer"
               data-ocid="nav.link"
-              className="text-sm font-medium text-foreground/70 hover:text-foreground transition-smooth"
+              className={`text-[11px] uppercase tracking-wide font-medium transition-smooth ${
+                isTransparent
+                  ? "text-white/65 hover:text-white"
+                  : "text-foreground/55 hover:text-foreground"
+              }`}
             >
               Sign in
             </Link>
             <Link to="/visualizer">
               <Button
                 data-ocid="nav.primary_button"
-                className="btn-amber text-sm font-semibold px-5 rounded-full shadow-warm"
+                size="sm"
+                className={`text-xs font-semibold px-5 h-8 tracking-wide transition-all duration-200 ${
+                  isTransparent
+                    ? "bg-white text-foreground hover:bg-white/90"
+                    : "btn-primary"
+                }`}
+                style={{ borderRadius: 0 }}
               >
-                Start Free Trial
+                Start free
               </Button>
             </Link>
           </div>
@@ -80,23 +97,27 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             type="button"
-            className="md:hidden p-2 rounded-md text-foreground/70 hover:text-foreground transition-smooth"
+            className={`md:hidden p-2 transition-smooth ${
+              isTransparent
+                ? "text-white/70 hover:text-white"
+                : "text-foreground/70 hover:text-foreground"
+            }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden glass-nav border-t border-border/40 py-4 px-6 space-y-1">
+        <div className="md:hidden glass-nav border-t border-border/40 py-4 px-6 space-y-0.5">
           {NAV_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="block px-3 py-2.5 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent rounded-lg transition-smooth"
+              className="block px-3 py-2.5 text-xs uppercase tracking-wide font-medium text-foreground/70 hover:text-foreground transition-smooth"
               onClick={() => setIsMenuOpen(false)}
             >
               {link.label}
@@ -108,8 +129,11 @@ export default function Navbar() {
               className="block"
               onClick={() => setIsMenuOpen(false)}
             >
-              <Button className="btn-amber w-full font-semibold rounded-full">
-                Start Free Trial
+              <Button
+                className="btn-primary w-full font-semibold text-xs tracking-wide"
+                style={{ borderRadius: 0 }}
+              >
+                Start free
               </Button>
             </Link>
           </div>

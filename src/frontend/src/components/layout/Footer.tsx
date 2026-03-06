@@ -8,17 +8,21 @@ export default function Footer() {
   const caffeineUrl = `https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(hostname)}`;
 
   return (
-    <footer className="border-t border-border/60 bg-background">
-      <div className="container max-w-7xl mx-auto px-6 py-12">
+    <footer className="border-t border-border/40 bg-background overflow-hidden">
+      <div className="container max-w-7xl mx-auto px-6 pt-12 pb-0">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Brand */}
           <div className="flex flex-col gap-3">
             <Link to="/" className="flex items-center">
-              <img
-                src="/assets/generated/logo-transparent.dim_200x60.png"
-                alt="FloorVision AI"
-                className="h-7 w-auto object-contain"
-              />
+              <span
+                className="font-display font-black text-sm text-foreground tracking-tight"
+                style={{
+                  fontFamily: '"Cabinet Grotesk", sans-serif',
+                  fontWeight: 800,
+                }}
+              >
+                FloorVision AI
+              </span>
             </Link>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
               Transform flat floor plans into vivid 3D visualizations —
@@ -40,7 +44,7 @@ export default function Footer() {
           </nav>
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-8 pt-6 border-t border-border/30 flex flex-col sm:flex-row items-center justify-between gap-3 pb-6">
           <p className="text-xs text-muted-foreground">
             © {year} FloorVision AI. All rights reserved.
           </p>
@@ -63,6 +67,20 @@ export default function Footer() {
             </a>
           </p>
         </div>
+      </div>
+
+      {/* Large brand stamp — signature typographic wordmark */}
+      <div className="w-full overflow-hidden pointer-events-none select-none">
+        <p
+          className="font-display font-black text-foreground/[0.05] whitespace-nowrap leading-[0.85] tracking-tighter w-full"
+          style={{
+            fontSize: "clamp(3rem, 10vw, 7rem)",
+            fontFamily: '"Cabinet Grotesk", sans-serif',
+          }}
+          aria-hidden="true"
+        >
+          FloorVision
+        </p>
       </div>
     </footer>
   );

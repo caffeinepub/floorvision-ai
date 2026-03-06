@@ -2,153 +2,31 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Check,
-  ChevronRight,
-  CloudUpload,
-  Eye,
-  Pencil,
-  RotateCcw,
-  Sparkles,
-  Upload,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRef, useState } from "react";
 
-/* ── Section divider with diamond ─────────────────────────── */
-function SectionDivider() {
-  return (
-    <div className="flex items-center gap-4 py-2 container max-w-7xl mx-auto px-6">
-      <div className="flex-1 h-px bg-border/60" />
-      <div
-        className="w-2 h-2 rotate-45 border"
-        style={{ borderColor: "oklch(0.88 0.02 75)" }}
-      />
-      <div className="flex-1 h-px bg-border/60" />
-    </div>
-  );
-}
-
-/* ── How It Works step ─────────────────────────────────────── */
-function Step({
-  number,
-  icon: Icon,
-  title,
-  description,
-  isLast,
-}: {
-  number: string;
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  isLast?: boolean;
-}) {
-  return (
-    <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-4 sm:gap-0 flex-1">
-      {/* Card */}
-      <div
-        className="flex flex-col flex-1 sm:mx-3 bg-card rounded-2xl px-6 pt-5 pb-6 shadow-warm border border-border/50 relative overflow-hidden group transition-all duration-300 hover:shadow-warm-lg"
-        style={{ borderTop: "2.5px solid oklch(0.70 0.175 55)" }}
-      >
-        {/* Editorial step number — large, behind content */}
-        <span
-          className="step-num absolute bottom-3 right-4 pointer-events-none select-none"
-          aria-hidden="true"
-        >
-          {`0${number}`}
-        </span>
-
-        {/* Icon row */}
-        <div className="flex items-center gap-3 mb-4">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ backgroundColor: "oklch(0.95 0.025 78)" }}
-          >
-            <Icon size={20} style={{ color: "oklch(0.70 0.175 55)" }} />
-          </div>
-          <span
-            className="font-display font-black text-xs tracking-widest uppercase"
-            style={{ color: "oklch(0.72 0.10 60)", letterSpacing: "0.12em" }}
-          >
-            Step {number}
-          </span>
-        </div>
-
-        <h3 className="font-display font-bold text-foreground text-base mb-1.5 relative z-10">
-          {title}
-        </h3>
-        <p className="text-sm text-muted-foreground leading-relaxed relative z-10 max-w-[20ch]">
-          {description}
-        </p>
-      </div>
-
-      {/* Arrow connector */}
-      {!isLast && (
-        <div className="hidden sm:flex items-center justify-center self-center flex-shrink-0">
-          <div
-            className="flex items-center gap-0.5"
-            style={{ color: "oklch(0.78 0.08 60)" }}
-          >
-            <div className="w-6 h-px bg-current opacity-40" />
-            <div className="w-4 h-px bg-current opacity-60" />
-            <ChevronRight size={14} />
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ── Feature card ───────────────────────────────────────────── */
-function FeatureCard({
-  icon: Icon,
+/* ── Feature row ─────────────────────────────────────────── */
+function FeatureRow({
   number,
   title,
   description,
-  tagline,
 }: {
-  icon: React.ElementType;
   number: string;
   title: string;
   description: string;
-  tagline: string;
 }) {
   return (
-    <article className="group relative bg-card rounded-2xl p-7 border border-border/60 feature-card shadow-xs hover:shadow-warm overflow-hidden">
-      {/* Ghost number */}
-      <span
-        className="absolute -top-3 -right-2 font-display font-black text-7xl leading-none pointer-events-none select-none"
-        style={{ color: "oklch(0.93 0.010 75)" }}
-        aria-hidden="true"
-      >
+    <div className="grid grid-cols-[1.5rem_1fr] sm:grid-cols-[1.5rem_1fr_1fr] gap-x-6 gap-y-1 py-7 border-b border-border/40 group">
+      <span className="text-[10px] text-muted-foreground/30 font-medium pt-0.5 tabular-nums tracking-widest select-none">
         {number}
       </span>
-
-      {/* Icon */}
-      <div
-        className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 shadow-warm"
-        style={{ backgroundColor: "oklch(0.95 0.025 78)" }}
-      >
-        <Icon size={22} style={{ color: "oklch(0.70 0.175 55)" }} />
-      </div>
-
-      <span
-        className="pill-badge mb-3 inline-flex"
-        style={{
-          backgroundColor: "oklch(0.95 0.025 78)",
-          color: "oklch(0.55 0.12 55)",
-        }}
-      >
-        {tagline}
-      </span>
-
-      <h3 className="font-display font-bold text-lg text-foreground mb-2 tracking-tight">
+      <h3 className="font-display font-semibold text-sm text-foreground tracking-tight">
         {title}
       </h3>
-      <p className="text-sm text-muted-foreground leading-relaxed">
+      <p className="text-sm text-muted-foreground leading-relaxed col-start-2 sm:col-start-3 mt-0.5 sm:mt-0">
         {description}
       </p>
-    </article>
+    </div>
   );
 }
 
@@ -160,12 +38,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* ── HERO ──────────────────────────────────────────────── */}
+      {/* ── HERO ─────────────────────────────────────────────── */}
       <section
         data-ocid="hero.section"
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        className="relative min-h-screen flex items-end overflow-hidden"
       >
-        {/* Background image */}
+        {/* Full-bleed background image */}
         <div className="absolute inset-0">
           <img
             src="/assets/generated/hero-bg.dim_1600x900.jpg"
@@ -173,265 +51,206 @@ export default function HomePage() {
             className="w-full h-full object-cover"
             loading="eager"
           />
-          {/* Warm white gradient overlay */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,252,248,0.88) 0%, rgba(255,252,248,0.70) 50%, rgba(250,245,235,0.80) 100%)",
+                "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.12) 100%)",
             }}
           />
         </div>
 
-        {/* Decorative floating circle */}
-        <div
-          className="absolute top-24 right-[8%] w-72 h-72 rounded-full opacity-20 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle, oklch(0.70 0.175 55 / 0.35) 0%, transparent 70%)",
-          }}
-        />
+        {/* Hero text anchored to bottom */}
+        <div className="relative w-full container max-w-6xl mx-auto px-6 pb-20 pt-40">
+          <div className="max-w-3xl">
+            {/* Hairline accent before headline */}
+            <div className="w-12 h-px bg-white/30 mb-8" />
 
-        <div className="relative container max-w-5xl mx-auto px-6 pt-28 pb-20 text-center">
-          {/* Pill badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-            <span
-              className="pill-badge"
+            <h1
+              className="font-display font-black text-white mb-7"
               style={{
-                backgroundColor: "oklch(0.70 0.175 55)",
-                color: "white",
+                fontSize: "clamp(3.5rem, 8vw, 6.5rem)",
+                letterSpacing: "-0.04em",
+                lineHeight: "1.0",
               }}
             >
-              <Sparkles size={9} />
-              AI-Powered · v2.0
-            </span>
-            <span
-              className="pill-badge"
-              style={{
-                backgroundColor: "oklch(0.95 0.022 78)",
-                color: "oklch(0.45 0.08 60)",
-                border: "1px solid oklch(0.88 0.025 72)",
-              }}
-            >
-              Free to start · No card required
-            </span>
-          </div>
-
-          {/* Main headline */}
-          <h1
-            className="font-display font-black text-foreground mb-5"
-            style={{
-              fontSize: "clamp(3.2rem, 8vw, 6.5rem)",
-              letterSpacing: "-0.04em",
-              lineHeight: "1.0",
-            }}
-          >
-            See Your Floor Plan
-            <br />
-            <em
-              className="not-italic block mt-1"
-              style={{
-                color: "oklch(0.70 0.175 55)",
-                fontFamily: '"Fraunces", serif',
-                fontWeight: 600,
-                fontSize: "1.08em",
-                textShadow: "0 2px 24px oklch(0.70 0.175 55 / 0.18)",
-              }}
-            >
-              Come to Life
-            </em>
-          </h1>
-
-          {/* Decorative rule under headline */}
-          <div className="hero-rule max-w-xs mx-auto mb-7">
-            <span
-              className="text-xs font-semibold tracking-widest uppercase"
-              style={{ color: "oklch(0.72 0.10 60)", letterSpacing: "0.18em" }}
-            >
-              AI-Powered Visualization
-            </span>
-          </div>
-
-          {/* Subheadline */}
-          <p
-            className="text-foreground/60 leading-relaxed max-w-xl mx-auto mb-10"
-            style={{ fontSize: "clamp(1.05rem, 2vw, 1.175rem)" }}
-          >
-            FloorVision AI transforms flat 2D architectural drawings into
-            stunning, colourful 3D visualizations — instantly. No expertise
-            required.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
-            <Link to="/visualizer">
-              <Button
-                data-ocid="hero.primary_button"
-                size="lg"
-                className="btn-amber h-12 px-8 rounded-full font-semibold shadow-warm-lg"
+              See your space
+              <br />
+              <em
+                className="not-italic"
+                style={{
+                  fontFamily: '"Instrument Serif", serif',
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                }}
               >
-                Upload Your Plan
-                <ArrowRight size={16} className="ml-2" />
-              </Button>
-            </Link>
-            <Link to="/visualizer">
-              <Button
+                before you build it.
+              </em>
+            </h1>
+            <p className="text-white/60 text-lg leading-relaxed max-w-md mb-10">
+              Upload any 2D floor plan and get a vivid, colour-rendered 3D
+              visualization in seconds. No expertise required.
+            </p>
+            <div className="flex flex-col sm:flex-row items-start gap-5">
+              <Link to="/visualizer">
+                <Button
+                  data-ocid="hero.primary_button"
+                  className="h-11 px-8 font-semibold bg-white text-foreground hover:bg-white/92 transition-all duration-200 text-sm tracking-wide"
+                  style={{ borderRadius: 0 }}
+                >
+                  Upload Your Plan
+                  <ArrowRight size={14} className="ml-2" />
+                </Button>
+              </Link>
+              <Link
+                to="/visualizer"
                 data-ocid="hero.secondary_button"
-                size="lg"
-                variant="outline"
-                className="h-12 px-8 rounded-full font-semibold border-foreground/20 hover:border-foreground/40 hover:bg-foreground/[0.04] transition-all duration-200"
+                className="flex items-center gap-2 h-11 text-sm font-medium text-white/65 hover:text-white transition-smooth"
               >
-                See a Demo
-              </Button>
+                See a demo
+                <span className="text-white/40">→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TRUST BAR ──────────────────────────────────────────── */}
+      <div className="border-y border-border/30">
+        <div className="container max-w-6xl mx-auto px-6 py-4 flex flex-wrap items-center justify-center sm:justify-start gap-x-8 gap-y-2">
+          {[
+            "No credit card required",
+            "Works with any floor plan",
+            "Results in seconds",
+            "Trusted by 12,000+ homeowners",
+          ].map((item) => (
+            <span
+              key={item}
+              className="text-xs text-muted-foreground/60 font-medium"
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── HOW IT WORKS ───────────────────────────────────────── */}
+      <section
+        data-ocid="howitworks.section"
+        id="howitworks"
+        className="py-32 bg-background"
+      >
+        <div className="container max-w-6xl mx-auto px-6">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-16 gap-4">
+            <div>
+              <p className="text-[10px] text-muted-foreground/40 tracking-[0.18em] uppercase mb-4 font-medium">
+                How it works
+              </p>
+              <h2
+                className="font-display font-black text-foreground"
+                style={{
+                  fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
+                  letterSpacing: "-0.04em",
+                  lineHeight: "1.05",
+                }}
+              >
+                Three steps.
+                <br />
+                One clear picture.
+              </h2>
+            </div>
+            <Link
+              to="/visualizer"
+              className="text-xs font-medium text-muted-foreground hover:text-foreground transition-smooth flex items-center gap-1.5"
+            >
+              Try it now
+              <span className="text-muted-foreground/40 group-hover:translate-x-0.5 transition-transform duration-200">
+                →
+              </span>
             </Link>
           </div>
 
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {/* Numbered list layout */}
+          <div className="border-t border-border/30">
             {[
-              "No credit card required",
-              "Works with any floor plan",
-              "Results in seconds",
-            ].map((badge) => (
-              <span
-                key={badge}
-                className="flex items-center gap-1.5 text-xs text-foreground/55 font-medium"
+              {
+                n: "01",
+                title: "Upload your 2D plan",
+                description:
+                  "Drop any PDF, PNG, or JPG floor plan — hand-drawn or architectural. We handle the rest.",
+              },
+              {
+                n: "02",
+                title: "AI transforms it",
+                description:
+                  "Our model reads every wall, room, and dimension. A vivid 3D render is generated in seconds.",
+              },
+              {
+                n: "03",
+                title: "Explore in 3D",
+                description:
+                  "Navigate multiple angles, adjust colours with plain text, and share or export your result.",
+              },
+            ].map((step) => (
+              <div
+                key={step.n}
+                className="grid grid-cols-[80px_1fr] border-b border-border/30 py-10"
               >
-                <Check
-                  size={12}
-                  className="flex-shrink-0"
-                  style={{ color: "oklch(0.70 0.175 55)" }}
-                />
-                {badge}
-              </span>
+                <span
+                  className="text-7xl font-black text-foreground/[0.04] tabular-nums select-none leading-none"
+                  aria-hidden="true"
+                >
+                  {step.n}
+                </span>
+                <div className="pt-1">
+                  <h3
+                    className="font-display font-bold text-xl text-foreground mb-2"
+                    style={{ letterSpacing: "-0.02em" }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS ──────────────────────────────────────── */}
-      <section
-        data-ocid="howitworks.section"
-        id="howitworks"
-        className="py-24 bg-section-alt"
-      >
-        <div className="container max-w-6xl mx-auto px-6">
-          <div className="flex flex-col items-center text-center mb-14">
-            <span
-              className="pill-badge mb-4"
-              style={{
-                backgroundColor: "oklch(0.95 0.025 78)",
-                color: "oklch(0.55 0.12 55)",
-              }}
-            >
-              HOW IT WORKS
-            </span>
-            <div className="relative pb-2">
-              <span
-                className="section-ghost-num absolute -top-8 left-1/2 -translate-x-1/2 pointer-events-none"
-                aria-hidden="true"
-              >
-                01
-              </span>
-              <h2
-                className="relative font-display font-black text-foreground"
-                style={{
-                  fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                Three steps to a living space
-                <br />
-                <span style={{ color: "oklch(0.70 0.175 55)" }}>
-                  you can see
-                </span>
-              </h2>
-            </div>
-            <p className="text-muted-foreground mt-4 max-w-lg text-base leading-relaxed">
-              Our AI pipeline takes your blueprint from flat lines to a
-              full-colour spatial experience in moments.
-            </p>
-          </div>
-
-          {/* Pipeline steps */}
-          <div className="flex flex-col sm:flex-row items-stretch gap-4 sm:gap-0">
-            <Step
-              number="1"
-              icon={Upload}
-              title="Upload your 2D plan"
-              description="Drop any PDF, PNG, or JPG floor plan — hand-drawn or architectural."
-            />
-            <Step
-              number="2"
-              icon={Sparkles}
-              title="AI transforms it"
-              description="Our model reads every wall, room, and dimension in seconds."
-            />
-            <Step
-              number="3"
-              icon={Eye}
-              title="Explore in 3D"
-              description="Navigate multiple angles, adjust colours, and share instantly."
-              isLast
-            />
-          </div>
-        </div>
-      </section>
-
-      <SectionDivider />
-
       {/* ── UPLOAD ─────────────────────────────────────────────── */}
       <section
         data-ocid="upload.section"
         id="upload"
-        className="py-24 bg-background"
+        className="py-32 bg-section-alt border-t border-border/40"
       >
-        <div className="container max-w-4xl mx-auto px-6">
-          <div className="flex flex-col items-center text-center mb-10">
-            <span
-              className="pill-badge mb-4"
-              style={{
-                backgroundColor: "oklch(0.95 0.025 78)",
-                color: "oklch(0.55 0.12 55)",
-              }}
-            >
-              GET STARTED
-            </span>
-            <div className="relative pb-2">
-              <span
-                className="section-ghost-num absolute -top-8 left-1/2 -translate-x-1/2 pointer-events-none"
-                aria-hidden="true"
-              >
-                02
-              </span>
-              <h2
-                className="relative font-display font-black text-foreground"
-                style={{
-                  fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                Upload Your Floor Plan
-              </h2>
-            </div>
-            <p className="text-muted-foreground mt-4 text-base max-w-md">
-              Start with your own plan or try with our sample below.
-            </p>
-          </div>
+        <div className="container max-w-3xl mx-auto px-6">
+          <p className="text-[10px] text-muted-foreground/40 tracking-[0.18em] uppercase mb-4 font-medium text-center">
+            Get started
+          </p>
+          <h2
+            className="font-display font-black text-foreground text-center mb-12"
+            style={{
+              fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
+              letterSpacing: "-0.04em",
+            }}
+          >
+            Upload your floor plan
+          </h2>
 
-          {/* Dropzone */}
+          {/* Dropzone — the section itself */}
           <label
             data-ocid="upload.dropzone"
             htmlFor="floor-plan-upload"
-            className="relative rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer group block"
+            className="relative border border-dashed cursor-pointer block transition-all duration-200 group min-h-[320px] flex flex-col items-center justify-center"
             style={{
               borderColor: isDragOver
-                ? "oklch(0.70 0.175 55)"
-                : "oklch(0.87 0.018 75)",
+                ? "oklch(0.38 0.12 250)"
+                : "oklch(0.82 0.004 260)",
               backgroundColor: isDragOver
-                ? "oklch(0.96 0.025 78)"
+                ? "oklch(0.97 0.004 250)"
                 : "transparent",
-              transform: isDragOver ? "scale(1.01)" : "scale(1)",
             }}
             onDragOver={(e) => {
               e.preventDefault();
@@ -451,193 +270,130 @@ export default function HomePage() {
               accept=".pdf,.png,.jpg,.jpeg"
               aria-label="Select floor plan file"
             />
-            <div className="flex flex-col items-center justify-center py-20 px-8">
-              <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shadow-warm"
-                style={{ backgroundColor: "oklch(0.95 0.025 78)" }}
-              >
-                <CloudUpload
-                  size={30}
-                  style={{ color: "oklch(0.70 0.175 55)" }}
-                />
-              </div>
-              <h3 className="font-display font-bold text-xl text-foreground mb-2">
-                Drag & drop your floor plan here
-              </h3>
-              <p className="text-muted-foreground text-sm mb-4">
-                Supports PDF, PNG, JPG
-              </p>
+            <div className="flex flex-col items-center justify-center py-16 px-8">
               <span
-                className="text-sm font-semibold underline underline-offset-2 cursor-pointer transition-smooth"
-                style={{ color: "oklch(0.70 0.175 55)" }}
+                className="text-7xl font-thin text-foreground/[0.12] leading-none mb-6 select-none"
+                aria-hidden="true"
               >
-                Browse files
+                +
               </span>
+              <p className="font-display font-medium text-sm text-foreground mb-1.5">
+                Drop your floor plan here
+              </p>
+              <p className="text-muted-foreground text-xs">
+                PDF, PNG, JPG — up to 50 MB
+              </p>
             </div>
           </label>
 
-          {/* Sample option */}
-          <div className="mt-8 flex flex-col items-center gap-4">
-            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              <div className="h-px w-16 bg-border/60" />
-              <span>Or try with a sample</span>
-              <div className="h-px w-16 bg-border/60" />
-            </div>
+          {/* Sample link — plain text */}
+          <div className="mt-6 flex justify-center">
             <Link
               to="/visualizer"
               data-ocid="upload.secondary_button"
-              className="group flex items-center gap-3 p-3 pr-5 rounded-2xl border border-border/60 hover:shadow-warm transition-all duration-200 bg-card"
-              style={{ borderColor: "oklch(0.90 0.012 75)" }}
+              className="text-sm text-muted-foreground hover:text-foreground transition-smooth flex items-center gap-1.5"
             >
-              <div className="w-16 h-12 rounded-xl overflow-hidden shadow-warm flex-shrink-0">
-                <img
-                  src="/assets/generated/floorplan-2d.dim_800x600.jpg"
-                  alt="Sample 2D floor plan"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-foreground font-display">
-                  Modern 3-Bedroom Home
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Sample floor plan · 1,420 sq ft
-                </p>
-              </div>
-              <ArrowRight
-                size={16}
-                className="ml-auto group-hover:translate-x-1 transition-all duration-200"
-                style={{ color: "oklch(0.62 0.10 55)" }}
-              />
+              or view a sample
+              <span className="text-muted-foreground/40">→</span>
             </Link>
           </div>
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* ── FEATURES ───────────────────────────────────────────── */}
       <section
         data-ocid="features.section"
         id="features"
-        className="py-24 bg-section-alt"
+        className="py-32 border-t border-border/40 bg-background"
       >
         <div className="container max-w-6xl mx-auto px-6">
-          <div className="flex flex-col items-center text-center mb-14">
-            <span
-              className="pill-badge mb-4"
-              style={{
-                backgroundColor: "oklch(0.95 0.025 78)",
-                color: "oklch(0.55 0.12 55)",
-              }}
-            >
-              FEATURES
-            </span>
-            <div className="relative pb-2">
-              <span
-                className="section-ghost-num absolute -top-8 left-1/2 -translate-x-1/2 pointer-events-none"
-                aria-hidden="true"
-              >
-                03
-              </span>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-14 gap-4">
+            <div>
+              <p className="text-[10px] text-muted-foreground/40 tracking-[0.18em] uppercase mb-4 font-medium">
+                Features
+              </p>
               <h2
-                className="relative font-display font-black text-foreground"
+                className="font-display font-black text-foreground"
                 style={{
-                  fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-                  letterSpacing: "-0.03em",
+                  fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
+                  letterSpacing: "-0.04em",
+                  lineHeight: "1.05",
                 }}
               >
-                Everything you need to{" "}
-                <span style={{ color: "oklch(0.70 0.175 55)" }}>
-                  understand
-                </span>
+                Everything you need
                 <br />
-                your space
+                to understand your space.
               </h2>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            <FeatureCard
-              icon={Sparkles}
+          <div className="border-t border-border/40">
+            <FeatureRow
               number="01"
               title="Instant 3D Render"
               description="Upload any 2D floor plan and receive a photorealistic 3D visualization in under 30 seconds."
-              tagline="AI-Powered"
             />
-            <FeatureCard
-              icon={Pencil}
+            <FeatureRow
               number="02"
-              title="Edit With Words"
-              description='Describe changes in plain English — "terracotta walls" or "add a skylight" — and watch the render update.'
-              tagline="Natural Language"
+              title="Edit with words"
+              description='Describe changes in plain English — "terracotta walls" or "add a skylight" — and watch the render update live.'
             />
-            <FeatureCard
-              icon={RotateCcw}
+            <FeatureRow
               number="03"
-              title="Multi-Angle Views"
+              title="Multi-angle views"
               description="Explore bird's-eye, side perspective, cross-section, and exploded axonometric views of your space."
-              tagline="4 View Modes"
+            />
+            <FeatureRow
+              number="04"
+              title="Cinematic walkthrough"
+              description="Generate an AI video flythrough of your interior — complete with lighting, depth, and atmosphere."
             />
           </div>
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* ── CTA BANNER ─────────────────────────────────────────── */}
       <section
         data-ocid="cta.section"
-        className="py-16 relative overflow-hidden"
-        style={{ backgroundColor: "oklch(0.70 0.175 55)" }}
+        className="relative overflow-hidden py-24 border-t border-border/40 bg-foreground"
       >
-        {/* Decorative background shapes */}
-        <div
-          className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-20 pointer-events-none"
+        {/* Decorative typographic element */}
+        <span
+          className="absolute right-8 bottom-0 font-display font-black select-none pointer-events-none leading-none text-white/[0.04]"
+          style={{ fontSize: "clamp(5rem, 18vw, 120px)" }}
           aria-hidden="true"
-          style={{
-            background: "radial-gradient(circle, white 0%, transparent 70%)",
-            transform: "translate(30%, -30%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-15 pointer-events-none"
-          aria-hidden="true"
-          style={{
-            background: "radial-gradient(circle, white 0%, transparent 70%)",
-            transform: "translate(-30%, 30%)",
-          }}
-        />
+        >
+          3D
+        </span>
 
-        <div className="relative container max-w-5xl mx-auto px-6 text-center">
-          <h2
-            className="font-display font-black text-white mb-3"
-            style={{
-              fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            Ready to visualize your space?
-          </h2>
-          <p className="text-white/75 text-lg mb-8 max-w-lg mx-auto">
-            Join thousands of homeowners, architects, and designers who use
-            FloorVision AI every day.
-          </p>
+        <div className="relative container max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-10">
+          <div>
+            <h2
+              className="font-display font-black text-white"
+              style={{
+                fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
+                letterSpacing: "-0.04em",
+                lineHeight: "1.05",
+              }}
+            >
+              Ready to see your
+              <br />
+              space come to life?
+            </h2>
+            <p className="text-white/30 text-xs mt-4 tracking-wide">
+              No credit card · Free to start
+            </p>
+          </div>
           <Link to="/visualizer">
             <Button
               data-ocid="cta.primary_button"
-              size="lg"
-              className="h-12 px-8 rounded-full font-bold text-base bg-white hover:bg-white/95 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-200 shadow-warm-xl"
-              style={{ color: "oklch(0.70 0.175 55)" }}
+              className="h-11 px-8 font-semibold bg-white text-foreground hover:bg-white/92 transition-all duration-200 flex-shrink-0 text-sm tracking-wide"
+              style={{ borderRadius: 0 }}
             >
-              Get Started Free
-              <ArrowRight size={18} className="ml-2" />
+              Get started free
+              <ArrowRight size={14} className="ml-2" />
             </Button>
           </Link>
-          <p className="text-white/55 text-xs mt-4 font-medium">
-            No credit card · Cancel anytime
-          </p>
         </div>
       </section>
 
